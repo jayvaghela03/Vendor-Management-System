@@ -50,7 +50,7 @@ class PurchaseOrderViewSet(viewsets.ModelViewSet):
     This action acknowledges a purchase order, updating the acknowledgment date
     and the average_response_time field of the associated vendor model.
     """
-    @action(detail=True, methods=['get'])
+    @action(detail=True, methods=['GET'])
     def acknowledge(self, request, pk=None):
         purchase_order = self.get_object()
         purchase_order.acknowledgment_date = timezone.now()
@@ -86,5 +86,6 @@ def calculate_average_response_time(vendor):
 
     # Create a new timedelta object from the average in seconds
     average_response_time = timedelta(seconds=average_response_time_seconds)
+    
+    return round(average_response_time.total_seconds() / 3600, 2)
 
-    return average_response_time.total_seconds() / 3600
